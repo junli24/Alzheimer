@@ -1,0 +1,35 @@
+import nibabel as nib
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
+
+# Path to your NIfTI file
+nii_file_path = r'C:\Users\Administrator\Desktop\wmI10002.nii'
+
+# Load the NIfTI file
+nii = nib.load(nii_file_path)
+
+# Get the NIfTI data array
+nii_data = nii.get_fdata()
+
+intensity_max = np.max(nii_data)
+
+img = nii_data[:, :, nii_data.shape[2] // 2]
+
+gray_image_scaled = (img / intensity_max * 255).astype(np.uint8)
+
+expanded_image = np.expand_dims(gray_image_scaled, axis=0)
+
+#print(expanded_image.shape)
+
+pil_frame = Image.fromarray(np.uint8(expanded_image))
+
+print(pil_frame.size)
+
+#pil_frame.show()
+
+# Display the NIfTI image
+# plt.figure(figsize=(8, 8))
+# plt.imshow(pil_frame, cmap='gray')  # Display a middle slice
+# plt.axis('off')
+# plt.show()
